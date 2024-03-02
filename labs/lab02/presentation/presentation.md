@@ -1,210 +1,260 @@
 ---
 ## Front matter
+title: Лабораторная работа №2
+subtitle: Операционные системы
+author: Лисенков Егор, НКАбд-03-23
+
+## Generic otions
 lang: ru-RU
-title: Структура научной презентации
-subtitle: Простейший шаблон
-author:
-  - Кулябов Д. С.
+toc-title: "Содержание"
 institute:
   - Российский университет дружбы народов, Москва, Россия
-  - Объединённый институт ядерных исследований, Дубна, Россия
-date: 01 января 1970
+date: 28 февраля 2024
 
-## i18n babel
+## Pdf output format
+toc: true # Table of contents
+toc-depth: 2
+lof: true # List of figures
+lot: true # List of tables
+fontsize: 12pt
+linestretch: 1.5
+papersize: a4
+documentclass: scrreprt
+## I18n polyglossia
+polyglossia-lang:
+  name: russian
+  options:
+	- spelling=modern
+	- babelshorthands=true
+polyglossia-otherlangs:
+  name: english
+## I18n babel
 babel-lang: russian
 babel-otherlangs: english
-
-## Formatting pdf
-toc: false
-toc-title: Содержание
-slide_level: 2
-aspectratio: 169
-section-titles: true
-theme: metropolis
+## Fonts
+mainfont: PT Serif
+romanfont: PT Serif
+sansfont: PT Sans
+monofont: PT Mono
+mainfontoptions: Ligatures=TeX
+romanfontoptions: Ligatures=TeX
+sansfontoptions: Ligatures=TeX,Scale=MatchLowercase
+monofontoptions: Scale=MatchLowercase,Scale=0.9
+## Biblatex
+biblatex: true
+biblio-style: "gost-numeric"
+biblatexoptions:
+  - parentracker=true
+  - backend=biber
+  - hyperref=auto
+  - language=auto
+  - autolang=other*
+  - citestyle=gost-numeric
+## Pandoc-crossref LaTeX customization
+figureTitle: "Рис."
+tableTitle: "Таблица"
+listingTitle: "Листинг"
+lofTitle: "Список иллюстраций"
+lotTitle: "Список таблиц"
+lolTitle: "Листинги"
+## Misc options
+indent: true
 header-includes:
- - \metroset{progressbar=frametitle,sectionpage=progressbar,numbering=fraction}
- - '\makeatletter'
- - '\beamer@ignorenonframefalse'
- - '\makeatother'
+  - \usepackage{indentfirst}
+  - \usepackage{float} # keep figures where there are in the text
+  - \floatplacement{figure}{H} # keep figures where there are in the text
 ---
 
-# Информация
+# Цель работы
 
-## Докладчик
+Научиться оформлять отчёты с помощью легковесного языка разметки Markdown.
 
-:::::::::::::: {.columns align=center}
-::: {.column width="70%"}
+# Задание
 
-  * Кулябов Дмитрий Сергеевич
-  * д.ф.-м.н., профессор
-  * профессор кафедры прикладной информатики и теории вероятностей
-  * Российский университет дружбы народов
-  * [kulyabov-ds@rudn.ru](mailto:kulyabov-ds@rudn.ru)
-  * <https://yamadharma.github.io/ru/>
+1. Понять базовые принципы работы с языком разметки Markdown.
 
-:::
-::: {.column width="30%"}
+# Выполние лабораторной работы
 
-![](./image/kulyabov.jpg)
+## Установка git
 
-:::
-::::::::::::::
+#### Установим git:
 
-# Вводная часть
+dnf install git
 
-## Актуальность
+#### Установка gh
 
-- Важно донести результаты своих исследований до окружающих
-- Научная презентация --- рабочий инструмент исследователя
-- Необходимо создавать презентацию быстро
-- Желательна минимизация усилий для создания презентации
+Fedora:
 
-## Объект и предмет исследования
+dnf install gh
 
-- Презентация как текст
-- Программное обеспечение для создания презентаций
-- Входные и выходные форматы презентаций
+![Установка GIT](image/1.png){#fig:01 width=70%}
 
-## Цели и задачи
+### Базовая настройка git
 
-- Создать шаблон презентации в Markdown
-- Описать алгоритм создания выходных форматов презентаций
+#### Создам имя и email владельца репозитория:
 
-## Материалы и методы
+git config --global user.name "Name Surname"
 
-- Процессор `pandoc` для входного формата Markdown
-- Результирующие форматы
-	- `pdf`
-	- `html`
-- Автоматизация процесса создания: `Makefile`
+git config --global user.email "work@mail"
 
-# Создание презентации
+#### Настрою utf-8 в выводе сообщений git:
 
-## Процессор `pandoc`
+git config --global core.quotepath false
 
-- Pandoc: преобразователь текстовых файлов
-- Сайт: <https://pandoc.org/>
-- Репозиторий: <https://github.com/jgm/pandoc>
+#### Настрою верификацию и подписание коммитов git (см. Верификация коммитов git с помощью GPG).
 
-## Формат `pdf`
+#### Зададу имя начальной ветки (master):
 
-- Использование LaTeX
-- Пакет для презентации: [beamer](https://ctan.org/pkg/beamer)
-- Тема оформления: `metropolis`
+git config --global init.defaultBranch master
 
-## Код для формата `pdf`
+#### Параметр autocrlf:
 
-```yaml
-slide_level: 2
-aspectratio: 169
-section-titles: true
-theme: metropolis
-```
+git config --global core.autocrlf input
 
-## Формат `html`
+#### Параметр safecrlf:
 
-- Используется фреймворк [reveal.js](https://revealjs.com/)
-- Используется [тема](https://revealjs.com/themes/) `beige`
+git config --global core.safecrlf warn
 
-## Код для формата `html`
+![Базовая настройка git](image/2.png){#fig:01 width=70%}
 
-- Тема задаётся в файле `Makefile`
+### Создам ключи ssh
 
-```make
-REVEALJS_THEME = beige 
-```
-# Результаты
+#### по алгоритму rsa с ключём размером 4096 бит:
 
-## Получающиеся форматы
+ssh-keygen -t rsa -b 4096
 
-- Полученный `pdf`-файл можно демонстрировать в любой программе просмотра `pdf`
-- Полученный `html`-файл содержит в себе все ресурсы: изображения, css, скрипты
+#### по алгоритму ed25519:
 
-# Элементы презентации
+ssh-keygen -t ed25519
 
-## Актуальность
+![Создам ключи ssh](image/3.png){#fig:01 width=70%}
 
-- Даёт понять, о чём пойдёт речь
-- Следует широко и кратко описать проблему
-- Мотивировать свое исследование
-- Сформулировать цели и задачи
-- Возможна формулировка ожидаемых результатов
+### Создам ключи pgp
 
-## Цели и задачи
+#### Генерирую ключ
 
-- Не формулируйте более 1--2 целей исследования
+gpg --full-generate-key
 
-## Материалы и методы
+#### Из предложенных опций выбираю:
 
-- Представляйте данные качественно
-- Количественно, только если крайне необходимо
-- Излишние детали не нужны
+тип RSA and RSA;
 
-## Содержание исследования
+размер 4096;
 
-- Предлагаемое решение задач исследования с обоснованием
-- Основные этапы работы
+выберу срок действия; значение по умолчанию — 0 (срок действия не истекает никогда).
+GPG запросит личную информацию, которая сохранится в ключе:
 
-## Результаты
+Имя (не менее 5 символов).
 
-- Не нужны все результаты
-- Необходимы логические связки между слайдами
-- Необходимо показать понимание материала
+Адрес электронной почты.
+
+#### При вводе email пойму, что он соответствует адресу, используемому на GitHub.
+#### Комментарий. Можно ввести что угодно или нажать клавишу ввода, чтобы оставить это поле пустым.
+
+![Создам ключи pgp](image/4.png){#fig:01 width=70%}
+
+![Создам ключи pgp](image/5.png){#fig:01 width=70%}
+
+### Добавление PGP ключа в GitHub
+
+#### Вывожу список ключей и копирую отпечаток приватного ключа:
+
+gpg --list-secret-keys --keyid-format LONG
+
+#### Отпечаток ключа — это последовательность байтов, используемая для идентификации более длинного, по сравнению с самим отпечатком ключа.
+
+#### Формат строки:
+
+sec   Алгоритм/Отпечаток_ключа Дата_создания [Флаги] [Годен_до]
+      ID_ключа
+
+#### Cкопируйте ваш сгенерированный PGP ключ в буфер обмена:
+
+gpg --armor --export 45131DEA3FF28641 | xclip -sel clip
+
+#### Перейдите в настройки GitHub (https://github.com/settings/keys), нажмите на кнопку New GPG key и вставьте полученный ключ в поле ввода.
+
+![Добавление PGP ключа в GitHub](image/6.png){#fig:01 width=70%}
 
 
-## Итоговый слайд
+![Добавление PGP ключа в GitHub](image/7.png){#fig:01 width=70%}
 
-- Запоминается последняя фраза. © Штирлиц
-- Главное сообщение, которое вы хотите донести до слушателей
-- Избегайте использовать последний слайд вида *Спасибо за внимание*
+### Настройка автоматических подписей коммитов git
 
-# Рекомендации
+#### Используя введёный email, укажу Git применять его при подписи коммитов:
 
-## Принцип 10/20/30
+git config --global user.signingkey 45131DEA3FF28641
 
-  - 10 слайдов
-  - 20 минут на доклад
-  - 30 кегль шрифта
+git config --global commit.gpgsign true
 
-## Связь слайдов
+git config --global gpg.program $(which gpg2)
 
-::: incremental
+![Настройка автоматических подписей коммитов git](image/8.png){#fig:01 width=70%}
 
-- Один слайд --- одна мысль
-- Нельзя ссылаться на объекты, находящиеся на предыдущих слайдах (например, на формулы)
-- Каждый слайд должен иметь заголовок
+![Настройка автоматических подписей коммитов git](image/9.png){#fig:01 width=70%}
 
-:::
+### Сознание репозитория курса на основе шаблона
 
-## Количество сущностей
+#### Необходимо создать шаблон рабочего пространства (см. Рабочее пространство для лабораторной работы).
 
-::: incremental
+#### Например, для 2022–2023 учебного года и предмета «Операционные системы» (код предмета os-intro) создание репозитория примет следующий вид:
 
-- Человек может одновременно помнить $7 \pm 2$ элемента
-- При размещении информации на слайде старайтесь чтобы в сумме слайд содержал не более 5 элементов
-- Можно группировать элементы так, чтобы визуально было не более 5 групп
+mkdir -p ~/work/study/2022-2023/"Операционные системы"
 
-:::
+cd ~/work/study/2022-2023/"Операционные системы"
 
-## Общие рекомендации
+gh repo create study_2022-2023_os-intro --template=yamadharma/course-directory-student-template --public
 
-::: incremental
+git clone --recursive git@github.com:erlisenkov/study_2022-2023_os-intro.git os-intro
 
-- На слайд выносится та информация, которая без зрительной опоры воспринимается хуже
-- Слайды должны дополнять или обобщать содержание выступления или его частей, а не дублировать его
-- Информация на слайдах должна быть изложена кратко, чётко и хорошо структурирована
-- Слайд не должен быть перегружен графическими изображениями и текстом
-- Не злоупотребляйте анимацией и переходами
+![Сознание репозитория курса на основе шаблона](image/10.png){#fig:01 width=70%}
 
-:::
+### Настройка каталога курса
 
-## Представление данных
+#### Перейдём в каталог курса:
 
-::: incremental
+cd ~/work/study/2022-2023/"Операционные системы"/os-intro
 
-- Лучше представить в виде схемы
-- Менее оптимально представить в виде рисунка, графика, таблицы
-- Текст используется, если все предыдущие способы отображения информации не подошли
+#### Удалим лишние файлы:
 
-:::
+rm package.json
 
+#### Создадим необходимые каталоги:
+
+echo os-intro > COURSE
+
+make
+
+#### Отправлю файлы на сервер:
+
+git add .
+
+git commit -am 'feat(main): make course structure'
+
+git push
+
+![Настройка каталога курса](image/11.png){#fig:01 width=70%}
+
+![Настройка каталога курса](image/12.png){#fig:01 width=70%}
+
+![Настройка каталога курса](image/13.png){#fig:01 width=70%}
+
+
+# Список литературы{.unnumbered}
+
+::: {#refs}
+
+1. Dash P. Getting started with oracle vm virtualbox. Packt Publishing Ltd, 2013. 86 p.
+
+2. Colvin H. Virtualbox: An ultimate guide book on virtualization with virtualbox. CreateSpace Independent Publishing Platform, 2015. 70 p.
+
+3. van Vugt S. Red hat rhcsa/rhce 7 cert guide : Red hat enterprise linux 7 (ex200 and ex300). Pearson IT Certification, 2016. 1008 p.
+
+4. Робачевский А., Немнюгин С., Стесик О. Операционная система unix. 2-е изд. Санкт-Петербург: БХВ-Петербург, 2010. 656 p.
+
+5. Немет Э. et al. Unix и Linux: руководство системного администратора. 4-е изд. Вильямс, 2014. 1312 p.
+
+6. Колисниченко Д.Н. Самоучитель системного администратора Linux. СПб.: БХВ-Петербург, 2011. 544 p.
+
+7. Robbins A. Bash pocket reference. O’Reilly Media, 2016. 156 p.
+::: 
